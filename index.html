@@ -1,0 +1,223 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenLeaf Plant Shop</title>
+  <link rel="stylesheet" href="css/custom.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+</head>
+
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">GreenLeaf</div>
+    <nav>
+      <a href="#shop">Shop</a>
+      <a href="#contact">Contact</a>
+      <a href="#customers">Customers</a>
+      <a href="#" id="wishlistLink">Wishlist (<span id="wishlistCount">0</span>)</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content" data-aos="fade-up">
+      <h1>Bring Nature Home</h1>
+      <p>Discover beautiful indoor and outdoor plants to refresh your space.</p>
+      <a href="#shop" class="btn-primary">Shop Now</a>
+    </div>
+  </section>
+
+  <!-- Slideshow -->
+  <section class="slideshow">
+    <div class="slide-track">
+      <img src="imgs/aleovera.webp" alt="Plant 1">
+      <img src="imgs/moneyplant.webp" alt="Plant 2">
+      <img src="imgs/rose.webp" alt="Plant 3">
+      <img src="imgs/bamboopalm.webp" alt="Plant 4">
+    </div>
+  </section>
+
+  <!-- Shop Section -->
+  <section id="shop" class="shop-section">
+    <h2 data-aos="fade-up">Our Plants</h2>
+    <div class="plants" id="plant-container"></div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact-section" data-aos="fade-up">
+    <h2>Contact Us</h2>
+    <form id="contactForm">
+      <input type="text" placeholder="Your Name" name="name" required />
+      <input type="email" placeholder="Email Address" name="email" required />
+      <textarea placeholder="Your Message" name="message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <!-- Customers Section -->
+  <section id="customers" class="customers-section" data-aos="fade-up">
+    <h2>Reached Out Customers</h2>
+    <ul id="customerList">No customers yet.</ul>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 GreenLeaf. All rights reserved.</p>
+    <p><a href="#">Instagram</a> | <a href="#">Facebook</a></p>
+  </footer>
+  <!-- Wishlist Modal -->
+<div id="wishlistModal" class="wishlist-modal">
+  <div class="wishlist-content">
+    <span class="close-btn">&times;</span>
+    <h2>Your Wishlist</h2>
+    <ul id="wishlistItems"></ul>
+  </div>
+</div>
+
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+  AOS.init();
+
+  const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+  const wishlistCountEl = document.getElementById('wishlistCount');
+  const wishlistLink = document.getElementById('wishlistLink');
+  const wishlistModal = document.getElementById('wishlistModal');
+  const wishlistItemsEl = document.getElementById('wishlistItems');
+  const closeBtn = document.querySelector('.close-btn');
+
+  // Update counter initially
+  wishlistCountEl.textContent = wishlist.length;
+
+  // Render Wishlist Items in Modal
+  function renderWishlist() {
+    wishlistItemsEl.innerHTML = '';
+    if (wishlist.length === 0) {
+      wishlistItemsEl.innerHTML = '<li>No items in wishlist.</li>';
+      return;
+    }
+
+    wishlist.forEach((item, index) => {
+      const li = document.createElement('li');
+
+      li.innerHTML = `
+        <div style="display: flex; align-items: center;">
+          <img src="${item.image}" alt="${item.name}">
+          <div>
+            <strong>${item.name}</strong><br>
+            ₹${item.price}
+          </div>
+        </div>
+        <button onclick="removeFromWishlist(${index})" style="background:#f44336;color:white;padding:5px 10px;border:none;border-radius:5px;">Remove</button>
+      `;
+
+      wishlistItemsEl.appendChild(li);
+    });
+  }
+
+  // Remove item
+function removeFromWishlist(index) {
+  const removedItem = wishlist[index];
+  wishlist.splice(index, 1);
+  localStorage.setItem('wishlist', JSON.stringify(wishlist));
+  wishlistCountEl.textContent = wishlist.length;
+  renderWishlist();
+
+  // Re-enable the "Add to Wishlist" button for this item
+  const buttons = document.querySelectorAll('.plant-card');
+  buttons.forEach(card => {
+    const name = card.querySelector('h3').textContent;
+    if (name === removedItem.name) {
+      const btn = card.querySelector('.wishlist-btn');
+      btn.textContent = 'Add to Wishlist';
+      btn.disabled = false;
+    }
+  });
+}
+
+  // Expose remove function globally
+  window.removeFromWishlist = removeFromWishlist;
+
+  // Open modal
+  wishlistLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    wishlistModal.style.display = 'flex';
+    renderWishlist();
+  });
+
+  // Close modal
+  closeBtn.addEventListener('click', () => wishlistModal.style.display = 'none');
+  window.addEventListener('click', (e) => {
+    if (e.target == wishlistModal) wishlistModal.style.display = 'none';
+  });
+
+  // Load plant cards
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'data/plants.json', true);
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      const data = JSON.parse(xhr.responseText);
+      const container = document.getElementById('plant-container');
+
+      data.forEach(plant => {
+        const card = document.createElement('div');
+        card.className = 'plant-card';
+        card.innerHTML = `
+          <img src="${plant.image}" alt="${plant.name}" />
+          <h3>${plant.name}</h3>
+          <p>${plant.category}</p>
+          <p>₹${plant.price}</p>
+          <button class="wishlist-btn">Add to Wishlist</button>
+        `;
+        container.appendChild(card);
+
+        // Attach event
+        const button = card.querySelector('.wishlist-btn');
+        button.addEventListener('click', function () {
+          wishlist.push(plant);
+          localStorage.setItem('wishlist', JSON.stringify(wishlist));
+          wishlistCountEl.textContent = wishlist.length;
+          this.textContent = 'Added 💚';
+          this.disabled = true;
+        });
+
+        // Disable button if already added
+        if (wishlist.find(item => item.name === plant.name)) {
+          button.textContent = 'Added 💚';
+          button.disabled = true;
+        }
+      });
+    }
+  };
+  xhr.send();
+
+  // Contact Form
+  const contactForm = document.getElementById('contactForm');
+  const customerList = document.getElementById('customerList');
+
+  contactForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const formData = new FormData(contactForm);
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const message = formData.get('message');
+
+    const entry = document.createElement('li');
+    entry.textContent = `${name} (${email}) — ${message}`;
+    if (customerList.textContent.includes('No customers yet')) {
+      customerList.innerHTML = '';
+    }
+    customerList.appendChild(entry);
+    contactForm.reset();
+  });
+</script>
+
+</body>
+
+</html>

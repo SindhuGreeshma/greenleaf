@@ -1,0 +1,246 @@
+/* Global Styles */
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: #f9fefb;
+  color: #948e8e;
+  scroll-behavior: smooth;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Navbar */
+.navbar {
+  background: #4CAF50;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+.navbar nav a {
+  margin: 0 15px;
+  font-weight: 500;
+  color: white;
+}
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Hero Section */
+.hero {
+  background: url('../imgs/green-money-plant.png') center/cover no-repeat;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fffbfb;
+  text-align: center;
+}
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.hero-content p {
+  font-size: 1.2rem;
+}
+.btn-primary {
+  margin-top: 1rem;
+  background: #ccc5c5;
+  color: #4CAF50;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+.btn-primary:hover {
+  background: #d0f0c0;
+}
+
+/* Slideshow */
+.slideshow {
+  background: #e8f5e9;
+  overflow: hidden;
+  padding: 1rem 0;
+}
+.slide-track {
+  display: flex;
+  animation: scroll 30s linear infinite;
+}
+.slide-track img {
+  width: 300px;
+  margin: 0 15px;
+  border-radius: 10px;
+      height: 264px;
+}
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Shop */
+.shop-section {
+  padding: 3rem 2rem;
+  background: #fff;
+  text-align: center;
+}
+.plants {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+.plant-card {
+  background: #f4f4f4;
+  border-radius: 12px;
+  padding: 15px;
+  width: 230px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+.plant-card:hover {
+  transform: scale(1.05);
+}
+.plant-card img {
+  width: 100%;
+  border-radius: 8px;
+  height:248px
+}
+.plant-card h3 {
+  margin: 10px 0 5px;
+}
+
+/* Contact Section */
+.contact-section {
+  padding: 3rem 2rem;
+  background: #d0f0c0;
+  text-align: center;
+}
+#contactForm {
+  max-width: 500px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+#contactForm input,
+#contactForm textarea {
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 8px;
+}
+#contactForm button {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#contactForm button:hover {
+  background: #388E3C;
+}
+
+/* Customers */
+.customers-section {
+  background: #fff;
+  padding: 2rem;
+}
+#customerList {
+  list-style: none;
+  padding: 0;
+}
+#customerList li {
+  background: #f1f8e9;
+  padding: 10px;
+  margin: 8px 0;
+  border-left: 5px solid #4CAF50;
+  border-radius: 6px;
+}
+
+/* Footer */
+footer {
+  background: #4CAF50;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+/* Wishlist Modal Styles */
+.wishlist-modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+}
+
+.wishlist-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  text-align: left;
+  position: relative;
+}
+
+.wishlist-content h2 {
+  margin-top: 0;
+}
+
+.wishlist-content ul {
+  list-style: none;
+  padding: 0;
+}
+
+.wishlist-content li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.wishlist-content img {
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .plants {
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  .navbar nav a {
+    margin: 0 10px;
+  }
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Aloe Vera",
+    "category": "indoor",
+    "price": 200,
+    "image": "imgs/aleovera.webp"
+  },
+  {
+    "id": 2,
+    "name": "Money Plant",
+    "category": "indoor",
+    "price": 180,
+    "image": "imgs/moneyplant.webp"
+  },
+  {
+    "id": 3,
+    "name": "Rose",
+    "category": "flowering",
+    "price": 250,
+    "image": "imgs/rose.webp"
+  },
+  {
+    "id": 4,
+    "name": "Bamboo Palm",
+    "category": "outdoor",
+    "price": 300,
+    "image": "imgs/bamboopalm.webp"
+  }
+]
